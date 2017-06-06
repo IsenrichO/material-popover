@@ -29,8 +29,8 @@ export default class PopoverPure extends Component {
 
   static defaultProps = {
     anchorOrigin: {
-      vertical: 'bottom',
-      horizontal: 'left',
+      horizontal: 'right',
+      vertical: 'top',
     },
     autoCloseWhenOffScreen: true,
     canAutoPosition: true,
@@ -41,8 +41,8 @@ export default class PopoverPure extends Component {
       overflowY: 'auto',
     },
     targetOrigin: {
-      vertical: 'top',
       horizontal: 'left',
+      vertical: 'top',
     },
   };
 
@@ -80,7 +80,11 @@ export default class PopoverPure extends Component {
 
     return (
       <div
-        style={style}
+        style={{
+          ...style,
+          opacity: open ? 1 : 0,
+          transform: open ? 'scaleY(1)' : 'scaleY(0)',
+        }}
         className={classNames.popoverContainer}
       >
         <span className={classNames.popoverArrow} />
@@ -114,7 +118,7 @@ export default class PopoverPure extends Component {
   }
 
   renderLayer = () => {
-    const { anchorEl } = this.props;
+    const { anchorEl, isOpen } = this.props;
 
     const {
       width,
@@ -129,6 +133,8 @@ export default class PopoverPure extends Component {
       left: left + width,
       top,
     };
+
+    if (!isOpen) return null;
 
     return this.renderPopoverWrapper(pagePosition);
   }
@@ -162,7 +168,6 @@ export default class PopoverPure extends Component {
     targetEl.style.top = `${targetPosition.top}px`;
     targetEl.style.left = `${Math.max(0, targetPosition.left)}px`;
     targetEl.style.maxHeight = `${WIN_HEIGHT}px`;
-    targetEl.style.marginTop = `-${arrowVerticalOffset}px`;
 
     switch (true) {
       case WIN_HEIGHT - anchorPos.top > targetPos.bottom:

@@ -7,6 +7,7 @@ export default styler({
     display: 'inline-block',
     maxWidth: 350,
     maxHeight: '70vh',
+    marginLeft: 12,
     padding: [16, 0, 16, 24],
     backgroundColor: '#FFF',
     overflowY: 'visible',
@@ -25,6 +26,18 @@ export default styler({
       spread: null,
       color: 'rgba(0, 0, 0, 0.23)',
     }],
+    transition: [{
+      property: 'opacity',
+      duration: '450ms',
+      timingFunction: 'ease-out',
+      delay: null,
+    }, {
+      property: 'transform',
+      duration: '450ms',
+      timingFunction: 'ease-out',
+      delay: null,
+    }],
+    transformOrigin: 'top left',
   },
   popoverArrow: {
     position: 'absolute',
@@ -35,6 +48,6 @@ export default styler({
       color: 'transparent',
     },
     borderRightColor: '#FFF',
-    filter: 'drop-shadow(-3px 0 3px rgba(0, 0, 0, 0.24))',
+    filter: 'drop-shadow(-4px 0 1px rgba(0, 0, 0, 0.11))',
   },
 })(PopoverPure);
