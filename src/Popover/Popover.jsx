@@ -1,5 +1,4 @@
 import PopoverPure from './PopoverPure';
-import PopoverStyles from './styles';
 import styler from '../styler';
 
 export default styler({
