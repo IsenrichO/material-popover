@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM, { unmountComponentAtNode, unstable_renderSubtreeIntoContainer } from 'react-dom';
 import PropTypes from 'prop-types';
 import { ClassNamesPropType } from 'aesthetic';
-import EventListener from 'react-event-listener';
-import throttle from 'lodash.throttle';
 import { recursiveDescent } from './utils';
 import styler from '../styler';
 

@@ -5,7 +5,10 @@ const ENV = process.env.BABEL_ENV;
 module.exports = {
   presets: [
     [ es2015, {
-      modules: ENV === 'es' ? false : 'commonjs'
+      loose: true,
+      modules: false,
+      // `modules: 'umd'` => This disables tree-shaking
+      // MUI Code -> modules: ENV === 'es' ? false : 'commonjs'
     }],
   ],
 };

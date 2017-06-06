@@ -33,10 +33,7 @@ function resolveBuildPath(file) {
 function createPackageFile() {
   return new Promise((resolve) => {
     fse.readFile(path.resolve(__dirname, '../package.json'), 'utf8', (err, data) => {
-      if (err) {
-        throw err;
-      }
-
+      if (err) throw err;
       resolve(data);
     });
   })
@@ -56,13 +53,13 @@ function createPackageFile() {
     } = packageData;
 
     const minimalPackage = {
-      name: 'material-ui',
+      name: 'better-popover',
       author,
       version,
       description,
       main: './index.js',
       module: './index.es.js',
-      'jsnext:main': './index.es.js',
+      // 'jsnext:main': './index.es.js',
       keywords,
       repository,
       license,

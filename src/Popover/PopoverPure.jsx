@@ -9,9 +9,6 @@ import LayerInjector from './LayerInjector';
 export default class PopoverPure extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      shouldDropUp: false,
-    };
 
     this.requestClose = ::this.requestClose;
     this.scrollHandler = throttle(this.positionPopover.bind(this, true), 50);
@@ -108,8 +105,8 @@ export default class PopoverPure extends Component {
 
     const anchorPos = this.getAnchorPosition(anchorEl),
           targetPos = this.getTargetPosition(targetEl);
-      console.log('\nANCHOR POSITION:', anchorPos);
-      console.log('\nTARGET POSITION:', targetPos);
+      // console.log('\nANCHOR POSITION:', anchorPos);
+      // console.log('\nTARGET POSITION:', targetPos);
 
     let targetPosition = {
       top: anchorPos.top - targetPos.top,
