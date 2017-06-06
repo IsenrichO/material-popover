@@ -4,10 +4,11 @@ import styler from '../styler';
 export default styler({
   popoverContainer: {
     position: 'relative',
-    maxWidth: 500,
+    display: 'inline-block',
+    maxWidth: 300,
     padding: [16, 0, 16, 24],
     backgroundColor: '#FFF',
-    overflow: 'visible',
+    overflowY: 'visible',
     boxShadow: [{
       inset: null,
       x: 0,
