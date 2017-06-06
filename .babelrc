@@ -1,6 +1,14 @@
 {
-  "presets": ["./tools/material-ui-babel-preset-es2015", "stage-1", "react"],
+  "presets": [
+    "./tools/babel-build-preset",
+    "stage-1",
+    "react"
+  ],
   "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "transform-function-bind",
+    "transform-object-rest-spread",
     ["transform-replace-object-assign", "simple-assign"],
     "transform-dev-warning"
   ],
@@ -10,6 +18,10 @@
     },
     "docs-production": {
       "plugins": [
+        "transform-decorators-legacy",
+        "transform-class-properties",
+        "transform-function-bind",
+        "transform-object-rest-spread",
         ["transform-replace-object-assign", "simple-assign"],
         "transform-react-remove-prop-types",
         "transform-react-constant-elements",
@@ -19,7 +31,9 @@
     "release": {
       "plugins": [
         "transform-runtime",
-        ["transform-react-remove-prop-types", {"mode": "wrap"}]
+        ["transform-react-remove-prop-types", {
+          "mode": "wrap"
+        }]
       ]
     }
   }
