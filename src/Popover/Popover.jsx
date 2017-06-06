@@ -5,7 +5,7 @@ export default styler({
   popoverContainer: {
     position: 'relative',
     display: 'inline-block',
-    maxWidth: 300,
+    maxWidth: 350,
     padding: [16, 0, 16, 24],
     backgroundColor: '#FFF',
     overflowY: 'visible',
