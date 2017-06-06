@@ -65,8 +65,8 @@ export default class PopoverPure extends Component {
   }
 
   componentWillUnmount() {
-    this.handleResize.cancel();
-    this.handleScroll.cancel();
+    // this.handleResize.cancel();
+    // this.handleScroll.cancel();
   }
 
   requestClose(reason) {
@@ -97,7 +97,6 @@ export default class PopoverPure extends Component {
           { offsetWidth: width, offsetHeight: height } = anchorEl,
           middle = (left + ((right - left) / 2)),
           center = (top + ((bottom - top) / 2));
-          console.log('anchor:', top, bottom, left, right, width, height, middle, center);
     return { top, bottom, left, right, width, height, middle, center };
   }
 

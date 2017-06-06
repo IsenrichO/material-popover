@@ -33,17 +33,10 @@
     }
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:simple2",
-    "build1": "npm run build:babel && npm run build:copy-files && npm run build:es",
+    "build": "npm run build:babel && npm run build:copy-files && npm run build:es",
     "build:babel": "cross-env NODE_ENV=release babel ./src --out-dir ./build --ignore spec.js",
     "build:copy-files": "babel-node ./scripts/file-copy-generator.js",
-    "build:es": "cross-env BABEL_ENV=es babel ./src/index.js --out-file ./build/index.es.js",
-    "build:es1": "cross-env babel ./src/index.js --out-file ./build/index.es.js",
-    "build:index": "babel-node ./scripts/index-generator.js",
-    "build:orig": "npm run build:index && npm run build:babel && npm run build:copy-files && npm run build:es",
-    "build:simple": "node_modules/babel-cli/bin/babel.js src --out-dir build",
-    "build:simple1": "npm run clean && node_modules/babel-cli/bin/babel.js src --out-dir build",
-    "build:simple2": "npm run build:babel && npm run build:copy-files && npm run build:es1",
+    "build:es": "cross-env babel ./src/index.js --out-file ./build/index.es.js",
     "clean": "rimraf build",
     "prebuild": "npm run clean"
   },
