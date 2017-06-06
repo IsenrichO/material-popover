@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "better-popover",
   "version": "1.0.1",
   "main": "./src/index.js",
   "description": "Material Design-inspired popover React components with support for user-specified options to enable further enhancements/customizations",
