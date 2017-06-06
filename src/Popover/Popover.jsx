@@ -27,7 +27,6 @@ export default styler({
   popoverArrow: {
     position: 'absolute',
     left: -20,
-    top: 14,
     border: {
       width: 10,
       style: 'solid',

@@ -7,16 +7,51 @@ import throttle from 'lodash.throttle';
 import LayerInjector from './LayerInjector';
 
 export default class PopoverPure extends Component {
+  static PropTypes = {
+    anchorEl: PropTypes.object,
+    anchorOrigin: PropTypes.shape({    // propTypes.origin,
+      horizontal: PropTypes.string,
+      vertical: PropTypes.string,
+    }),
+    autoCloseWhenOffScreen: PropTypes.bool,
+    canAutoPosition: PropTypes.bool,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    classNames: ClassNamesPropType.isRequired,
+    onRequestClose: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    style: PropTypes.object,
+    targetOrigin: PropTypes.shape({    // propTypes.origin,
+      horizontal: PropTypes.string,
+      vertical: PropTypes.string,
+    }),
+  };
+
+  static defaultProps = {
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'left',
+    },
+    autoCloseWhenOffScreen: true,
+    canAutoPosition: true,
+    onRequestClose() {},
+    isOpen: false,
+    style: {
+      overflowY: 'auto',
+    },
+    targetOrigin: {
+      vertical: 'top',
+      horizontal: 'left',
+    },
+  };
+
   constructor(props) {
     super(props);
 
     this.requestClose = ::this.requestClose;
+    this.handleResize = throttle(this.positionPopover, 100);
     this.scrollHandler = throttle(this.positionPopover.bind(this, true), 50);
   }
-
-  // componentWillMount() {
-  //   window.addEventListener('scroll', this.scrollHandler);
-  // }
 
   componentDidMount() { this.positionPopover(); }
   componentDidUpdate() { this.positionPopover(); }
@@ -26,6 +61,11 @@ export default class PopoverPure extends Component {
     if (nextProps.isOpen) {
       this.anchorEl = nextProps.anchorEl || this.props.anchorEl;
     }
+  }
+
+  componentWillUnmount() {
+    this.handleResize.cancel();
+    this.handleScroll.cancel();
   }
 
   requestClose(reason) {
@@ -56,7 +96,7 @@ export default class PopoverPure extends Component {
           { offsetWidth: width, offsetHeight: height } = anchorEl,
           middle = (left + ((right - left) / 2)),
           center = (top + ((bottom - top) / 2));
-
+          console.log('anchor:', top, bottom, left, right, width, height, middle, center);
     return { top, bottom, left, right, width, height, middle, center };
   }
 
@@ -74,9 +114,7 @@ export default class PopoverPure extends Component {
   }
 
   renderLayer = () => {
-    const {
-      anchorEl,
-    } = this.props;
+    const { anchorEl } = this.props;
 
     const {
       width,
@@ -105,8 +143,6 @@ export default class PopoverPure extends Component {
 
     const anchorPos = this.getAnchorPosition(anchorEl),
           targetPos = this.getTargetPosition(targetEl);
-      // console.log('\nANCHOR POSITION:', anchorPos);
-      // console.log('\nTARGET POSITION:', targetPos);
 
     let targetPosition = {
       top: anchorPos.top - targetPos.top,
@@ -121,18 +157,21 @@ export default class PopoverPure extends Component {
       targetPosition.top = (anchorPos.top + anchorPos.height - targetPos.bottom);
     }
 
-    targetEl.style.top = `${targetPosition.top}px`; // `${Math.max(0, targetPosition.top)}px`;
+    const arrowVerticalOffset = ((anchorPos.height - 20) / 2);
+
+    targetEl.style.top = `${targetPosition.top}px`;
     targetEl.style.left = `${Math.max(0, targetPosition.left)}px`;
     targetEl.style.maxHeight = `${WIN_HEIGHT}px`;
+    targetEl.style.marginTop = `-${arrowVerticalOffset}px`;
 
     switch (true) {
       case WIN_HEIGHT - anchorPos.top > targetPos.bottom:
-        arrowEl.style.top = `${(anchorPos.height / 2) - 7}px`;
+        arrowEl.style.top = `${arrowVerticalOffset}px`;
         arrowEl.style.bottom = 'auto';
         break;
       case WIN_HEIGHT - anchorPos.top < targetPos.bottom:
         arrowEl.style.top = 'auto';
-        arrowEl.style.bottom = `${(anchorPos.height / 2) - 7}px`;
+        arrowEl.style.bottom = `${arrowVerticalOffset}px`;
         break;
       default:
         arrowEl.style.display = 'none';
@@ -160,6 +199,7 @@ export default class PopoverPure extends Component {
       <div>
         <EventListener
           target="window"
+          onResize={this.handleResize}
           onScroll={this.scrollHandler}
         />
         <LayerInjector

@@ -2,10 +2,24 @@ import React, { Component } from 'react';
 import ReactDOM, { unmountComponentAtNode, unstable_renderSubtreeIntoContainer } from 'react-dom';
 import PropTypes from 'prop-types';
 import { ClassNamesPropType } from 'aesthetic';
+import EventListener from 'react-event-listener';
+import throttle from 'lodash.throttle';
 import { recursiveDescent } from './utils';
 import styler from '../styler';
 
 export default class LayerInjector extends Component {
+  static propTypes = {
+    handleClickAway: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    render: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    handleClickAway() {},
+    isOpen: false,
+    render() {},
+  };
+
   constructor(props) {
     super(props);
   }
@@ -23,10 +37,6 @@ export default class LayerInjector extends Component {
   }
 
   onClickAway = (evt) => {
-    console.log('clicked away');
-
-    console.log('is CHild node?', recursiveDescent(this.layer, evt.target));
-
     if (!recursiveDescent(this.layer, evt.target)) {
       this.props.handleClickAway();
     }
@@ -40,8 +50,15 @@ export default class LayerInjector extends Component {
 
     unmountComponentAtNode(this.layer);
     document.body.removeChild(this.layer);
+    this.layer = null;
   }
 
+  /**
+   * By calling this method in componentDidMount() and
+   *  componentDidUpdate(), you're effectively creating a "wormhole" that
+   *  funnels React's hierarchical updates through to a DOM node on an
+   *  entirely different part of the page.
+   */
   renderLayer() {
     const {
       isOpen,
@@ -63,12 +80,6 @@ export default class LayerInjector extends Component {
         this.layer.style.zIndex = 2000;
       }
 
-      /**
-       * By calling this method in componentDidMount() and
-       * componentDidUpdate(), you're effectively creating a "wormhole" that
-       * funnels React's hierarchical updates through to a DOM node on an
-       * entirely different part of the page.
-       */
       const layerElement = render();
       this.layerElement = unstable_renderSubtreeIntoContainer(this, layerElement, this.layer);
     } else {
