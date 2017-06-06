@@ -6,6 +6,7 @@ export default styler({
     position: 'relative',
     display: 'inline-block',
     maxWidth: 350,
+    maxHeight: '70vh',
     padding: [16, 0, 16, 24],
     backgroundColor: '#FFF',
     overflowY: 'visible',

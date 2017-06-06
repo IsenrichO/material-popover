@@ -37,6 +37,7 @@ export default class PopoverPure extends Component {
     onRequestClose() {},
     isOpen: false,
     style: {
+      display: 'inline-block',
       overflowY: 'auto',
     },
     targetOrigin: {
@@ -75,12 +76,12 @@ export default class PopoverPure extends Component {
   }
 
   renderPopoverWrapper(pagePosition = {}) {
-    const { classNames } = this.props;
+    const { classNames, style } = this.props;
 
     return (
       <div
+        style={style}
         className={classNames.popoverContainer}
-        ref={(popover) => { this.popover = popover; }}
       >
         <span className={classNames.popoverArrow} />
         {this.props.children}
