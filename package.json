@@ -1,6 +1,6 @@
 {
   "name": "better-popover",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "main": "./build/index.es.js",
   "description": "Material Design-inspired popover React components with support for user-specified options to enable further enhancements/customizations",
   "license": "GPL-3.0",
