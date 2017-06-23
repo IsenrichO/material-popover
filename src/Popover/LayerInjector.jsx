@@ -12,29 +12,20 @@ export default class LayerInjector extends Component {
     handleClickAway: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     render: PropTypes.func.isRequired,
+    zDepth: PropTypes.number,
   };
 
   static defaultProps = {
     handleClickAway() {},
     isOpen: false,
     render() {},
+    zDepth: 2000,
   };
 
-  constructor(props) {
-    super(props);
-  }
+  componentDidMount() { this.renderLayer(); }
+  componentDidUpdate() { this.renderLayer(); }
 
-  componentDidMount() {
-    this.renderLayer();
-  }
-
-  componentDidUpdate() {
-    this.renderLayer();
-  }
-
-  getPortal() {
-    return this.layer;
-  }
+  getPortal() { return this.layer; }
 
   onClickAway = (evt) => {
     if (!recursiveDescent(this.layer, evt.target)) {
@@ -60,10 +51,7 @@ export default class LayerInjector extends Component {
    *  entirely different part of the page.
    */
   renderLayer() {
-    const {
-      isOpen,
-      render,
-    } = this.props;
+    const { isOpen, render, zDepth } = this.props;
 
     if (isOpen) {
       if (!this.layer) {
@@ -77,7 +65,7 @@ export default class LayerInjector extends Component {
         this.layer.style.bottom = 0;
         this.layer.style.left = 0;
         this.layer.style.right = 0;
-        this.layer.style.zIndex = 2000;
+        this.layer.style.zIndex = (zDepth || 2000);
       }
 
       const layerElement = render();
