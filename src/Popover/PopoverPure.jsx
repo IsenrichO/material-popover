@@ -25,6 +25,7 @@ export default class PopoverPure extends Component {
       horizontal: PropTypes.string,
       vertical: PropTypes.string,
     }),
+    zDepth: PropTypes.number,
   };
 
   static defaultProps = {
@@ -44,13 +45,14 @@ export default class PopoverPure extends Component {
       horizontal: 'left',
       vertical: 'top',
     },
+    zDepth: 2000,
   };
 
   constructor(props) {
     super(props);
 
     this.requestClose = ::this.requestClose;
-    this.handleResize = throttle(this.positionPopover, 100);
+    // this.handleResize = throttle(this.positionPopover, 100);
     this.scrollHandler = throttle(this.positionPopover.bind(this, true), 50);
   }
 
@@ -81,9 +83,9 @@ export default class PopoverPure extends Component {
     return (
       <div
         style={{
-          ...style,
           opacity: open ? 1 : 0,
-          transform: open ? 'scaleY(1)' : 'scaleY(0)',
+          transform: `scaleY(${open ? 1 : 0})`,
+          ...style, // Order last to ensure properties override
         }}
         className={classNames.popoverContainer}
       >
@@ -198,7 +200,7 @@ export default class PopoverPure extends Component {
   }
 
   render() {
-    const { isOpen } = this.props;
+    const { isOpen, zDepth } = this.props;
 
     return (
       <div>
@@ -208,10 +210,11 @@ export default class PopoverPure extends Component {
           onScroll={this.scrollHandler}
         />
         <LayerInjector
-          isOpen={isOpen}
-          render={this.renderLayer}
           handleClickAway={this.requestClose}
+          isOpen={isOpen}
           ref={(portal) => { this.portal = portal; }}
+          render={this.renderLayer}
+          zDepth={zDepth || 2000}
         />
       </div>
     );
